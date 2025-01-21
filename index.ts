@@ -18,7 +18,10 @@ const pulumiMergeRole = new aws.iam.Role('thepatrick/thepatrick.cloud.tf/merge',
         Principal: { Federated: oidcProvider.arn },
         Condition: {
           StringLike: {
-            'token.actions.githubusercontent.com:sub': ['repo:thepatrick/thepatrick.cloud.tf:ref:refs/heads/live'],
+            'token.actions.githubusercontent.com:sub': [
+              'repo:thepatrick/thepatrick.cloud.tf:ref:refs/heads/live',
+              'repo:p2-network/art:ref:refs/heads/main',
+            ],
           },
         },
       },
@@ -46,5 +49,27 @@ const pulumiPreviewRole = new aws.iam.Role('thepatrick/thepatrick.cloud.tf/previ
   },
 });
 
+const pulumiReadOnlyRole = new aws.iam.Role('thepatrick/github-actions/read-only', {
+  namePrefix: 'actions-pr-readonly',
+  path: '/github-actions/',
+  managedPolicyArns: ['arn:aws:iam::aws:policy/ReadOnlyAccess'],
+  assumeRolePolicy: {
+    Version: '2012-10-17',
+    Statement: [
+      {
+        Effect: 'Allow',
+        Action: 'sts:AssumeRoleWithWebIdentity',
+        Principal: { Federated: oidcProvider.arn },
+        Condition: {
+          StringLike: {
+            'token.actions.githubusercontent.com:sub': ['repo:p2-network/art:pull_request'],
+          },
+        },
+      },
+    ],
+  },
+});
+
 export const pulumiMergeRoleARN = pulumiMergeRole.arn;
 export const pulumiPreviewRoleARN = pulumiPreviewRole.arn;
+export const pulumiReadOnlyRoleARN = pulumiReadOnlyRole.arn;
