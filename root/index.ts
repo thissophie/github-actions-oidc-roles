@@ -68,8 +68,8 @@ const iamManagement = new aws.iam.Policy('iam-management', {
   },
 });
 
-const githubOidcRolesMerge = new aws.iam.Role('thepatrick/github-actions-oidc-roles/merge', {
-  path: `/github-actions-root/thepatrick/`,
+const githubOidcRolesMerge = new aws.iam.Role('thissophie/github-actions-oidc-roles/merge', {
+  path: `/github-actions-root/thissophie/`,
   name: 'github-actions-oidc-roles-merge',
   managedPolicyArns: [iamManagement.arn, readGithubOIDCProvider.arn],
   assumeRolePolicy: {
@@ -82,7 +82,7 @@ const githubOidcRolesMerge = new aws.iam.Role('thepatrick/github-actions-oidc-ro
         Condition: {
           StringLike: {
             'token.actions.githubusercontent.com:sub': [
-              'repo:thepatrick/github-actions-oidc-roles:ref:refs/heads/main',
+              'repo:thissophie/github-actions-oidc-roles:ref:refs/heads/main',
             ],
           },
         },
@@ -104,7 +104,7 @@ const pulumiMergeRole = new aws.iam.Role('thepatrick/thepatrick.cloud.tf/merge',
         Condition: {
           StringLike: {
             'token.actions.githubusercontent.com:sub': [
-              'repo:thepatrick/thepatrick.cloud.tf:ref:refs/heads/live',
+              'repo:thissophie/thepatrick.cloud.tf:ref:refs/heads/live',
               'repo:p2-network/art:ref:refs/heads/main',
             ],
           },
@@ -126,7 +126,7 @@ const pulumiPreviewRole = new aws.iam.Role('thepatrick/thepatrick.cloud.tf/previ
         Principal: { Federated: oidcProvider.arn },
         Condition: {
           StringLike: {
-            'token.actions.githubusercontent.com:sub': ['repo:thepatrick/thepatrick.cloud.tf:pull_request'],
+            'token.actions.githubusercontent.com:sub': ['repo:thissophie/thepatrick.cloud.tf:pull_request'],
           },
         },
       },
