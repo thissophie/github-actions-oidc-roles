@@ -1,0 +1,6 @@
+allowBuilds:
+  '@pulumi/aws': true
+  '@pulumi/awsx': true
+  '@pulumi/docker': true
+  aws-sdk: true
+  protobufjs: true
