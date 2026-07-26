@@ -24,8 +24,8 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
-      - run: npm install
+          node-version: "24"
+      - run: pnpm install
         working-directory: ./main
       - uses: pulumi/actions@v4
         id: pulumi
